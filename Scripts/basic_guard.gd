@@ -14,7 +14,7 @@ func update_animation(direction: Vector2):
 		if abs(direction.x) > abs(direction.y):
 			if direction.x > 0:
 				anim = "move_right"
-				last_direction = "right"  # 👈 remember it
+				last_direction = "right"
 			else:
 				anim = "move_left"
 				last_direction = "left"

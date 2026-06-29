@@ -1,9 +1,29 @@
 [gd_scene format=3 uid="uid://si08ns1yiff"]
 
+[ext_resource type="PackedScene" uid="uid://ccmdq0iag2i4k" path="res://Scenes/test_level.tscn" id="1_bo1nx"]
 [ext_resource type="PackedScene" uid="uid://d0qg3x665wugm" path="res://Scenes/player.tscn" id="1_jjgbg"]
+[ext_resource type="PackedScene" uid="uid://ckpsth4a5ebtw" path="res://Scenes/basic_guard.tscn" id="3_8gbba"]
+
+[sub_resource type="Curve2D" id="Curve2D_jjvhh"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 793, 260, 0, 0, 0, 0, 1097, 258, 0, 0, 0, 0, 1086, 883, 0, 0, 0, 0, 795, 882, 0, 0, 0, 0, 793, 260)
+}
+point_count = 5
 
 [node name="Main" type="Node2D" unique_id=902902978]
 
+[node name="TestLevel" parent="." unique_id=1451983424 instance=ExtResource("1_bo1nx")]
+
 [node name="Player" parent="." unique_id=1331811681 instance=ExtResource("1_jjgbg")]
-position = Vector2(436, 277)
+position = Vector2(450, 552)
+scale = Vector2(4, 4)
+
+[node name="Path2D" type="Path2D" parent="." unique_id=2077581591]
+curve = SubResource("Curve2D_jjvhh")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D" unique_id=531886747]
+position = Vector2(793, 260)
+rotation = -0.006578853
+
+[node name="BasicGuard" parent="Path2D/PathFollow2D" unique_id=2153924 instance=ExtResource("3_8gbba")]
 scale = Vector2(4, 4)
