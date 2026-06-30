@@ -6,6 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://bk55kwx40rkpc" path="res://Assets/Placeholder/Images/Player/Walking Left-Sheet.png" id="3_x3wgy"]
 [ext_resource type="Texture2D" uid="uid://byrvawdg6v8je" path="res://Assets/Placeholder/Images/Player/Walking Right-Sheet.png" id="4_3smsa"]
 [ext_resource type="Texture2D" uid="uid://c753xwt3ugsy7" path="res://Assets/Placeholder/Images/Player/Walking Up.png" id="5_8erm5"]
+[ext_resource type="PackedScene" uid="uid://bd0rgll6gd22n" path="res://Scenes/attack_component.tscn" id="7_tx1dd"]
+[ext_resource type="PackedScene" uid="uid://j68cnkcroywl" path="res://Scenes/health_component.tscn" id="8_gymyn"]
+[ext_resource type="PackedScene" uid="uid://c5ys6ikla6f26" path="res://Scenes/hitbox_component.tscn" id="9_pu2lt"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6t5aa"]
 atlas = ExtResource("1_v0iea")
@@ -193,20 +196,43 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fkybt"]
 size = Vector2(13, 11)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f1ek2"]
+size = Vector2(8.5, 9.25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tx1dd"]
+size = Vector2(11, 21)
+
 [node name="Player" type="CharacterBody2D" unique_id=1331811681]
 script = ExtResource("1_x3wgy")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1107943444]
 sprite_frames = SubResource("SpriteFrames_x3wgy")
-animation = &"idle_left"
-frame_progress = 0.5689766
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=76538927]
-position = Vector2(0.5, 6.5)
-shape = SubResource("RectangleShape2D_fkybt")
+animation = &"idle_right"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1388226162]
 limit_left = 0
 limit_top = 0
 limit_right = 1216
 limit_bottom = 960
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=76538927]
+position = Vector2(0.5, 6.5)
+shape = SubResource("RectangleShape2D_fkybt")
+
+[node name="AttackComponent" parent="." unique_id=1303139763 instance=ExtResource("7_tx1dd")]
+
+[node name="HitboxComponent" parent="AttackComponent" unique_id=2066948592 instance=ExtResource("9_pu2lt")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackComponent/HitboxComponent" unique_id=425353365]
+position = Vector2(6.75, 3)
+shape = SubResource("RectangleShape2D_f1ek2")
+debug_color = Color(0.9924671, 0, 0.25800297, 0.41960785)
+
+[node name="HealthComponent" parent="." unique_id=956881380 instance=ExtResource("8_gymyn")]
+
+[node name="HitboxComponent" parent="." unique_id=1635155463 instance=ExtResource("9_pu2lt")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent" unique_id=1962057658]
+position = Vector2(0.5, 1.5)
+shape = SubResource("RectangleShape2D_tx1dd")
+debug_color = Color(0.32267833, 0.6248632, 0, 0.41960785)

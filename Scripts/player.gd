@@ -5,6 +5,9 @@ extends CharacterBody2D
 @export var acceleration = 1
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+@onready var attack_component: AttackComponent = $AttackComponent
+@onready var health_component: HealthComponent = $HealthComponent
+@onready var hurtbox_component: HurtboxComponent = $HurtboxComponent
 
 var last_direction = "down"
 
@@ -21,6 +24,9 @@ func get_input():
 		input.y -= 1
 	return input
 
+func _input(event):
+	if event.is_action_pressed("attack"):
+		attack_component.attack()
 
 func update_animation(direction: Vector2):
 	var anim = ""
@@ -54,3 +60,10 @@ func _physics_process(_delta):
 		velocity = velocity.lerp(Vector2.ZERO, friction)
 	update_animation(direction)
 	move_and_slide()
+
+
+func _on_health_changed(current: int, max: int) -> void:
+	print("Player health: ", current, "/", max)
+
+func _on_died() -> void:
+	print("Player caught!")
