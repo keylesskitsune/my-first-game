@@ -9,5 +9,6 @@ func _ready() -> void:
 	area_entered.connect(_on_area_entered)
 
 func _on_area_entered(area: Area2D) -> void:
+	print("Hitbox touched: ", area.name)
 	if area is HurtboxComponent:
 		area.take_hit(damage, knockout)

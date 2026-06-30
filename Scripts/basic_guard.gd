@@ -9,8 +9,11 @@ enum State { IDLE, ALERT, ATTACK}
 @export var patrol_speed = 0.08
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
-@onready var navigation_agent_2d: NavigationAgent2D = $NavigationAgent2D
 @onready var vision: Area2D = $Vision
+@onready var navigation_agent_2d: NavigationAgent2D = $NavigationAgent2D
+@onready var attack_component: AttackComponent = $AttackComponent
+@onready var health_component: HealthComponent = $HealthComponent
+@onready var hurtbox_component: HurtboxComponent = $HurtboxComponent
 
 var last_direction = "right"
 var player = null
@@ -18,10 +21,12 @@ var current_state = State.IDLE
 var move_direction = Vector2.RIGHT
 var patrol_target_set = false
 
+
 func _ready():
 	vision.body_entered.connect(_on_vision_body_entered)
 	vision.body_exited.connect(_on_vision_body_exited)
-
+	health_component.damaged.connect(_on_damaged)
+	health_component.died.connect(_on_died)
 
 func _on_vision_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
@@ -89,6 +94,18 @@ func _handle_attack():
 	velocity = velocity.lerp(Vector2.ZERO, friction)
 	if player == null:
 		current_state = State.IDLE
+
+
+func _on_damaged(amount: int) -> void:
+	print("Guard took ", amount, " damage")
+
+
+func _on_died() -> void:
+	print("Guard down!")
+	set_physics_process(false)
+	collision_layer = 0
+	collision_mask = 0
+	queue_free()
 
 
 func update_animation(direction: Vector2):

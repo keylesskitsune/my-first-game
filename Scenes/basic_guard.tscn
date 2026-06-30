@@ -279,7 +279,7 @@ animations = [{
 size = Vector2(12, 10)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2fh7s"]
-size = Vector2(7, 7)
+size = Vector2(5, 10.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gafcb"]
 size = Vector2(12, 17)
@@ -288,6 +288,7 @@ size = Vector2(12, 17)
 script = ExtResource("1_jv5ow")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1165477364]
+position = Vector2(0, -5)
 sprite_frames = SubResource("SpriteFrames_dycng")
 animation = &"idle_right"
 frame = 1
@@ -296,10 +297,11 @@ frame_progress = 0.74627495
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=419593812]
 light_mask = 4
 visibility_layer = 3
-position = Vector2(0, 7)
+position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_62vg2")
 
 [node name="Vision" type="Area2D" parent="." unique_id=1486846188]
+position = Vector2(0, -5)
 
 [node name="SpecialCollision" type="CollisionPolygon2D" parent="Vision" unique_id=392247888]
 position = Vector2(2, -5)
@@ -315,13 +317,14 @@ hitbox = NodePath("HitboxComponent")
 [node name="HitboxComponent" parent="AttackComponent" unique_id=2066948592 instance=ExtResource("3_fyu27")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackComponent/HitboxComponent" unique_id=335283698]
-position = Vector2(5, 6)
+position = Vector2(8.5, -0.25)
 shape = SubResource("RectangleShape2D_2fh7s")
 debug_color = Color(0.99623126, 0, 0.19929612, 0.41960785)
 
 [node name="HealthComponent" parent="." unique_id=956881380 instance=ExtResource("4_p6qfl")]
 
 [node name="HurtboxComponent" parent="." unique_id=1941597640 node_paths=PackedStringArray("health_component") instance=ExtResource("7_3sigj")]
+position = Vector2(0, -5)
 health_component = NodePath("../HealthComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" unique_id=1332239014]
