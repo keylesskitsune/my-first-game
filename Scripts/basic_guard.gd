@@ -1,12 +1,95 @@
 extends CharacterBody2D
 
+enum State { IDLE, ALERT, ATTACK}
+
 @export var speed = 300
 @export var friction = 1
 @export var acceleration = 1
+@export var patrol_path:PathFollow2D = null
+@export var patrol_speed = 0.08
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+@onready var navigation_agent_2d: NavigationAgent2D = $NavigationAgent2D
+@onready var vision: Area2D = $Vision
 
-var last_direction = "down"
+var last_direction = "right"
+var player = null
+var current_state = State.IDLE
+var move_direction = Vector2.RIGHT
+var patrol_target_set = false
+
+func _ready():
+	vision.body_entered.connect(_on_vision_body_entered)
+	vision.body_exited.connect(_on_vision_body_exited)
+
+
+func _on_vision_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		print("Player spotted!")
+		player = body
+		current_state = State.ALERT
+
+
+func _on_vision_body_exited(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		print("Player lost...")
+		player = null
+		patrol_target_set = false
+		current_state = State.IDLE
+
+
+func _physics_process(delta):
+	match current_state:
+		State.IDLE:
+			_handle_idle(delta)
+		State.ALERT:
+			_handle_alert()
+		State.ATTACK:
+			_handle_attack()
+	
+	_rotate_vision_cone() 
+	update_animation(velocity.normalized())
+	move_and_slide()
+
+
+func _rotate_vision_cone():
+	if move_direction.length() > 0.1:
+		vision.rotation = move_direction.angle()
+
+
+func _handle_idle(delta):
+	if patrol_path == null:
+		velocity = velocity.lerp(Vector2.ZERO, friction)
+		return
+	if not patrol_target_set or navigation_agent_2d.is_navigation_finished():
+		patrol_path.progress_ratio += patrol_speed
+		navigation_agent_2d.target_position = patrol_path.global_position
+		patrol_target_set = true
+	if not navigation_agent_2d.is_navigation_finished():
+		var next_point = navigation_agent_2d.get_next_path_position()
+		move_direction = (next_point - global_position).normalized()
+		velocity = velocity.lerp(move_direction * speed, acceleration)
+	else:
+		velocity = velocity.lerp(Vector2.ZERO, friction)
+
+func _handle_alert():
+	if player:
+		navigation_agent_2d.target_position = player.global_position
+	
+	if not navigation_agent_2d.is_navigation_finished():
+		var next_point = navigation_agent_2d.get_next_path_position()
+		move_direction = (next_point - global_position).normalized()
+		velocity = velocity.lerp(move_direction * speed, acceleration)
+	else:
+		current_state = State.ATTACK
+
+
+
+func _handle_attack():
+	velocity = velocity.lerp(Vector2.ZERO, friction)
+	if player == null:
+		current_state = State.IDLE
+
 
 func update_animation(direction: Vector2):
 	var anim = ""
@@ -30,13 +113,3 @@ func update_animation(direction: Vector2):
 	
 	if animated_sprite_2d.animation != anim:
 		animated_sprite_2d.play(anim)
-
-
-func _physics_process(_delta):
-	var direction = Vector2.ZERO
-	if direction.length() > 0:
-		velocity = velocity.lerp(direction.normalized() * speed, acceleration)
-	else:
-		velocity = velocity.lerp(Vector2.ZERO, friction)
-	update_animation(direction)
-	move_and_slide()

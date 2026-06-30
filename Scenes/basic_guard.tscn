@@ -279,8 +279,9 @@ script = ExtResource("1_jv5ow")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1165477364]
 sprite_frames = SubResource("SpriteFrames_dycng")
-animation = &"idle_down"
-frame_progress = 0.8139983
+animation = &"idle_right"
+frame = 1
+frame_progress = 0.74627495
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=419593812]
 position = Vector2(0, 2.5)
@@ -289,5 +290,9 @@ shape = SubResource("RectangleShape2D_62vg2")
 [node name="Vision" type="Area2D" parent="." unique_id=1486846188]
 
 [node name="SpecialCollision" type="CollisionPolygon2D" parent="Vision" unique_id=392247888]
-position = Vector2(0, 3)
-polygon = PackedVector2Array(0, 0, -40, 64, -32, 72, -24, 80, -16, 88, -8, 88, 0, 88, 8, 88, 16, 88, 24, 80, 40, 64)
+position = Vector2(0, -8)
+rotation = -1.5707964
+polygon = PackedVector2Array(-8, -3.496911e-07, -48, 64, -40, 72, -32, 80, -24, 88, -16, 88, -7.999999, 88, 9.536743e-07, 88, 8.000001, 88, 16.000004, 80, 32.000004, 64)
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1058360815]
+path_desired_distance = 1000.0
