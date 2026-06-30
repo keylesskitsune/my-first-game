@@ -3,4 +3,6 @@
 [ext_resource type="Script" uid="uid://dqmmmjdt4plj2" path="res://Scripts/hurtbox_component.gd" id="1_ddxfg"]
 
 [node name="HurtboxComponent" type="Area2D" unique_id=1941597640]
+collision_layer = 8
+collision_mask = 0
 script = ExtResource("1_ddxfg")

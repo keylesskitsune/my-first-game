@@ -1,7 +1,7 @@
 extends Node2D
 class_name HealthComponent
 
-signal health_changed(current: int, max: int)
+signal health_changed(current: int, max_hp: int)
 signal died
 signal damaged(amount: int)
 

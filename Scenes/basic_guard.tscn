@@ -294,6 +294,8 @@ frame = 1
 frame_progress = 0.74627495
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=419593812]
+light_mask = 4
+visibility_layer = 3
 position = Vector2(0, 7)
 shape = SubResource("RectangleShape2D_62vg2")
 
@@ -307,7 +309,8 @@ polygon = PackedVector2Array(-8, -3.496911e-07, -48, 64, -40, 72, -32, 80, -24, 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1058360815]
 path_desired_distance = 1000.0
 
-[node name="AttackComponent" parent="." unique_id=1303139763 instance=ExtResource("4_42e6p")]
+[node name="AttackComponent" parent="." unique_id=1303139763 node_paths=PackedStringArray("hitbox") instance=ExtResource("4_42e6p")]
+hitbox = NodePath("HitboxComponent")
 
 [node name="HitboxComponent" parent="AttackComponent" unique_id=2066948592 instance=ExtResource("3_fyu27")]
 
@@ -318,7 +321,8 @@ debug_color = Color(0.99623126, 0, 0.19929612, 0.41960785)
 
 [node name="HealthComponent" parent="." unique_id=956881380 instance=ExtResource("4_p6qfl")]
 
-[node name="HurtboxComponent" parent="." unique_id=1941597640 instance=ExtResource("7_3sigj")]
+[node name="HurtboxComponent" parent="." unique_id=1941597640 node_paths=PackedStringArray("health_component") instance=ExtResource("7_3sigj")]
+health_component = NodePath("../HealthComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" unique_id=1332239014]
 position = Vector2(0, 3.5)

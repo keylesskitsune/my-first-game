@@ -57,7 +57,7 @@ func _rotate_vision_cone():
 		vision.rotation = move_direction.angle()
 
 
-func _handle_idle(delta):
+func _handle_idle(_delta):
 	if patrol_path == null:
 		velocity = velocity.lerp(Vector2.ZERO, friction)
 		return
