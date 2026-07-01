@@ -7,6 +7,7 @@ enum State { IDLE, ALERT, ATTACK}
 @export var acceleration = 1
 @export var patrol_path:PathFollow2D = null
 @export var patrol_speed = 0.08
+@export var knockback_friction = 600 # how fast the knockback impulse decays
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var vision: Area2D = $Vision
@@ -21,6 +22,7 @@ var current_state = State.IDLE
 var move_direction = Vector2.RIGHT
 var facing_direction := Vector2.RIGHT
 var patrol_target_set = false
+var knockback_velocity := Vector2.ZERO
 
 
 func _ready():
@@ -53,9 +55,20 @@ func _physics_process(delta):
 		State.ATTACK:
 			_handle_attack()
 	
-	_rotate_vision_cone() 
+	_rotate_vision_cone()
 	update_animation(velocity.normalized())
+
+	if knockback_velocity.length() > 1.0:
+		velocity += knockback_velocity
+		knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO, knockback_friction * delta)
+	else:
+		knockback_velocity = Vector2.ZERO
+
 	move_and_slide()
+
+
+func apply_knockback(direction: Vector2, force: float) -> void:
+	knockback_velocity = direction * force
 
 
 func _rotate_vision_cone():
