@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
-@export var speed = 300
+@export var walk_speed = 300
+@export var run_speed = 500
 @export var friction = 1
 @export var acceleration = 1
 
@@ -11,6 +12,7 @@ extends CharacterBody2D
 
 var last_direction = "down"
 var facing_direction := Vector2.DOWN
+var is_running := false
 
 func get_input():
 	var input = Vector2()
@@ -22,6 +24,8 @@ func get_input():
 		input.y += 1
 	if Input.is_action_pressed('up'):
 		input.y -= 1
+	
+		is_running = Input.is_action_pressed('run')
 	return input
 
 func _input(event):
@@ -61,8 +65,9 @@ func update_animation(direction: Vector2):
 
 func _physics_process(_delta):
 	var direction = get_input()
+	var target_speed = run_speed if is_running else walk_speed
 	if direction.length() > 0:
-		velocity = velocity.lerp(direction.normalized() * speed, acceleration)
+		velocity = velocity.lerp(direction.normalized() * target_speed, acceleration)
 	else:
 		velocity = velocity.lerp(Vector2.ZERO, friction)
 	update_animation(direction)
