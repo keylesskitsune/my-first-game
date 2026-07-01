@@ -19,6 +19,7 @@ var last_direction = "right"
 var player = null
 var current_state = State.IDLE
 var move_direction = Vector2.RIGHT
+var facing_direction := Vector2.RIGHT
 var patrol_target_set = false
 
 
@@ -115,16 +116,20 @@ func update_animation(direction: Vector2):
 			if direction.x > 0:
 				anim = "move_right"
 				last_direction = "right"
+				facing_direction = Vector2.RIGHT
 			else:
 				anim = "move_left"
 				last_direction = "left"
+				facing_direction = Vector2.LEFT
 		else:
 			if direction.y > 0:
 				anim = "move_down"
 				last_direction = "down"
+				facing_direction = Vector2.DOWN
 			else:
 				anim = "move_up"
 				last_direction = "up"
+				facing_direction = Vector2.UP
 	else:
 		anim = "idle_" + last_direction
 	
