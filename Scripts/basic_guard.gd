@@ -17,7 +17,6 @@ enum State { IDLE, ALERT, ATTACK}
 @onready var hurtbox_component: HurtboxComponent = $HurtboxComponent
 
 var last_direction = "right"
-var facing_direction := Vector2.RIGHT
 var player = null
 var current_state = State.IDLE
 var move_direction = Vector2.RIGHT
