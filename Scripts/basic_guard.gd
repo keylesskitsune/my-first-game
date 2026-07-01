@@ -17,6 +17,7 @@ enum State { IDLE, ALERT, ATTACK}
 @onready var hurtbox_component: HurtboxComponent = $HurtboxComponent
 
 var last_direction = "right"
+var facing_direction := Vector2.RIGHT
 var player = null
 var current_state = State.IDLE
 var move_direction = Vector2.RIGHT
@@ -145,6 +146,8 @@ func update_animation(direction: Vector2):
 				facing_direction = Vector2.UP
 	else:
 		anim = "idle_" + last_direction
-	
+
+	attack_component.rotation = facing_direction.angle()
+
 	if animated_sprite_2d.animation != anim:
 		animated_sprite_2d.play(anim)
