@@ -25,7 +25,7 @@ func get_input():
 	if Input.is_action_pressed('up'):
 		input.y -= 1
 	
-		is_running = Input.is_action_pressed('run')
+	is_running = Input.is_action_pressed('run')
 	return input
 
 func _input(event):
