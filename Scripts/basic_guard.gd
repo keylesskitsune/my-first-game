@@ -10,7 +10,7 @@ enum State { IDLE, ALERT, ATTACK}
 @export var knockback_friction = 600 # how fast the knockback impulse decays
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
-@onready var vision: Area2D = $Vision
+@onready var vision: VisionComponent = $Vision
 @onready var navigation_agent_2d: NavigationAgent2D = $NavigationAgent2D
 @onready var attack_component: AttackComponent = $AttackComponent
 @onready var health_component: HealthComponent = $HealthComponent
@@ -26,24 +26,24 @@ var knockback_velocity := Vector2.ZERO
 
 
 func _ready():
-	vision.body_entered.connect(_on_vision_body_entered)
-	vision.body_exited.connect(_on_vision_body_exited)
+	vision.target_spotted.connect(_on_vision_target_spotted)
+	vision.target_lost.connect(_on_vision_target_lost)
 	health_component.damaged.connect(_on_damaged)
 	health_component.died.connect(_on_died)
 
-func _on_vision_body_entered(body: Node2D) -> void:
-	if body.is_in_group("player"):
-		print("Player spotted!")
-		player = body
-		current_state = State.ALERT
+func _on_vision_target_spotted(body: Node2D) -> void:
+	print("Player spotted!")
+	player = body
+	current_state = State.ALERT
 
 
-func _on_vision_body_exited(body: Node2D) -> void:
-	if body.is_in_group("player"):
-		print("Player lost...")
-		player = null
-		patrol_target_set = false
-		current_state = State.IDLE
+func _on_vision_target_lost(body: Node2D) -> void:
+	if body != player:
+		return
+	print("Player lost...")
+	player = null
+	patrol_target_set = false
+	current_state = State.IDLE
 
 
 func _physics_process(delta):

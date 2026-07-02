@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bd0rgll6gd22n" path="res://Scenes/attack_component.tscn" id="4_42e6p"]
 [ext_resource type="PackedScene" uid="uid://j68cnkcroywl" path="res://Scenes/health_component.tscn" id="4_p6qfl"]
 [ext_resource type="PackedScene" uid="uid://begfcuhw7hod6" path="res://Scenes/hurtbox_component.tscn" id="7_3sigj"]
+[ext_resource type="PackedScene" path="res://Scenes/vision_component.tscn" id="8_vision"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dycng"]
 atlas = ExtResource("1_ckcsj")
@@ -300,13 +301,10 @@ visibility_layer = 3
 position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_62vg2")
 
-[node name="Vision" type="Area2D" parent="." unique_id=1486846188]
+[node name="Vision" parent="." unique_id=1486846188 instance=ExtResource("8_vision")]
 position = Vector2(0, -5)
-
-[node name="SpecialCollision" type="CollisionPolygon2D" parent="Vision" unique_id=392247888]
-position = Vector2(2, -5)
-rotation = -1.5707964
-polygon = PackedVector2Array(-8, -3.496911e-07, -48, 64, -40, 72, -32, 80, -24, 88, -16, 88, -7.999999, 88, 9.536743e-07, 88, 8.000001, 88, 16.000004, 80, 32.000004, 64)
+view_distance = 90.0
+view_angle_degrees = 90.0
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1058360815]
 path_desired_distance = 1000.0
