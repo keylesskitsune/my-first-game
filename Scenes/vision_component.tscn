@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/vision_component.gd" id="1_vision"]
+
+[node name="VisionComponent" type="Area2D"]
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("1_vision")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
