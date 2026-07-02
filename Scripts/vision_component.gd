@@ -2,9 +2,6 @@
 extends Area2D
 class_name VisionComponent
 
-## Cone-shaped detection area. Targets inside the cone only count as spotted
-## if a raycast confirms nothing on obstruction_mask (walls, etc) is in the way.
-
 signal target_spotted(body: Node2D)
 signal target_lost(body: Node2D)
 
@@ -21,12 +18,7 @@ signal target_lost(body: Node2D)
 			_rebuild_shape()
 
 @export var target_group: String = "player"
-
-## Physics layers that block line of sight (walls, etc). Should not include the target's layer.
 @export_flags_2d_physics var obstruction_mask: int = 1
-
-## Body to exclude from the sightline raycast so the enemy doesn't block its own vision.
-## Defaults to the parent node if it's a physics body.
 @export var self_body: CollisionObject2D
 
 @onready var _collision_polygon: CollisionPolygon2D = $CollisionPolygon2D
