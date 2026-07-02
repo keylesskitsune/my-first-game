@@ -4,39 +4,43 @@
 [ext_resource type="PackedScene" uid="uid://d0qg3x665wugm" path="res://Scenes/player.tscn" id="1_jjgbg"]
 [ext_resource type="PackedScene" uid="uid://ckpsth4a5ebtw" path="res://Scenes/basic_guard.tscn" id="3_8gbba"]
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_8gbba"]
-vertices = PackedVector2Array(1139.9766, 200.99219, 1139.0078, 946.9531, 78.02344, 942.03906, 79.96875, 200)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(70, 190, 1150, 191, 1149, 957, 68, 952)])
-
 [sub_resource type="Curve2D" id="Curve2D_jjvhh"]
 _data = {
 "points": PackedVector2Array(0, 0, 0, 0, 793, 260, 0, 0, 0, 0, 1097, 258, 0, 0, 0, 0, 1086, 883, 0, 0, 0, 0, 795, 882, 0, 0, 0, 0, 793, 260)
 }
 point_count = 5
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_8gbba"]
+vertices = PackedVector2Array(1139.9766, 200.99219, 1139.0078, 946.9531, 78.02344, 942.03906, 79.96875, 200)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(70, 190, 1150, 191, 1149, 957, 68, 952)])
+
 [node name="Main" type="Node2D" unique_id=902902978]
 
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=766123120]
-navigation_polygon = SubResource("NavigationPolygon_8gbba")
-
 [node name="TestLevel" parent="." unique_id=1451983424 instance=ExtResource("1_bo1nx")]
-
-[node name="Path2D" type="Path2D" parent="." unique_id=2077581591]
-curve = SubResource("Curve2D_jjvhh")
-
-[node name="PathFollow2D" type="PathFollow2D" parent="Path2D" unique_id=531886747]
-position = Vector2(793, 260)
-rotation = -0.0065788524
-rotates = false
-
-[node name="BasicGuard" parent="." unique_id=2153924 node_paths=PackedStringArray("patrol_path") instance=ExtResource("3_8gbba")]
-position = Vector2(793, 260)
-rotation = -0.0065788524
-scale = Vector2(4, 4)
-speed = 200
-patrol_path = NodePath("../Path2D/PathFollow2D")
 
 [node name="Player" parent="." unique_id=1331811681 groups=["player"] instance=ExtResource("1_jjgbg")]
 position = Vector2(450, 552)
 scale = Vector2(4, 4)
+
+[node name="Enemy" type="Node2D" parent="." unique_id=2011815104]
+
+[node name="BasicGuard" parent="Enemy" unique_id=2153924 node_paths=PackedStringArray("patrol_path") instance=ExtResource("3_8gbba")]
+position = Vector2(793, 260)
+rotation = -0.0065788524
+scale = Vector2(4, 4)
+speed = 200
+patrol_path = NodePath("../Enemy AI/Path2D/PathFollow2D")
+
+[node name="Enemy AI" type="Node2D" parent="Enemy" unique_id=608892194]
+
+[node name="Path2D" type="Path2D" parent="Enemy/Enemy AI" unique_id=2077581591]
+curve = SubResource("Curve2D_jjvhh")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Enemy/Enemy AI/Path2D" unique_id=531886747]
+position = Vector2(793, 260)
+rotation = -0.0065788524
+rotates = false
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="Enemy/Enemy AI" unique_id=766123120]
+navigation_polygon = SubResource("NavigationPolygon_8gbba")
