@@ -97,7 +97,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_6t5aa")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle_down",
 "speed": 5.0
 }, {
@@ -105,7 +105,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_f1ek2")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle_left",
 "speed": 5.0
 }, {
@@ -113,7 +113,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_tx1dd")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle_right",
 "speed": 5.0
 }, {
@@ -121,7 +121,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_gymyn")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle_up",
 "speed": 5.0
 }, {
@@ -138,7 +138,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_h4iuc")
 }],
-"loop": true,
+"loop": 1,
 "name": &"move_down",
 "speed": 7.0
 }, {
@@ -155,7 +155,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_fs7ks")
 }],
-"loop": true,
+"loop": 1,
 "name": &"move_left",
 "speed": 7.0
 }, {
@@ -172,7 +172,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_bi64h")
 }],
-"loop": true,
+"loop": 1,
 "name": &"move_right",
 "speed": 7.0
 }, {
@@ -189,7 +189,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_vfarp")
 }],
-"loop": true,
+"loop": 1,
 "name": &"move_up",
 "speed": 7.0
 }]
@@ -212,10 +212,8 @@ sprite_frames = SubResource("SpriteFrames_x3wgy")
 animation = &"idle_right"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1388226162]
-limit_left = 0
-limit_top = 0
-limit_right = 1216
-limit_bottom = 960
+limit_left = -1000000
+limit_top = -1000000
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=76538927]
 light_mask = 5
