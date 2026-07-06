@@ -7,7 +7,7 @@ enum State { IDLE, ALERT, ATTACK}
 @export var acceleration = 1
 @export var patrol_path:PathFollow2D = null
 @export var patrol_speed = 0.08
-@export var knockback_friction = 600 # how fast the knockback impulse decays
+@export var knockback_friction = 600 
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var vision: VisionComponent = $Vision

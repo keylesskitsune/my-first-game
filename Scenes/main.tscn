@@ -29,8 +29,9 @@ scale = Vector2(4, 4)
 position = Vector2(793, 260)
 rotation = -0.0065788524
 scale = Vector2(4, 4)
-speed = 200
+speed = 100
 patrol_path = NodePath("../Enemy AI/Path2D/PathFollow2D")
+patrol_speed = 0.05
 
 [node name="Enemy AI" type="Node2D" parent="Enemy" unique_id=608892194]
 

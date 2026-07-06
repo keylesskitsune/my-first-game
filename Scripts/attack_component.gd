@@ -5,8 +5,8 @@ signal attack_started
 signal attack_finished
 
 @export var hitbox: HitboxComponent
-@export var active_time: float = 0.15  # how long the hitbox can actually hit something
-@export var cooldown_time: float = 0.6 # delay before another attack can start
+@export var active_time: float = 0.15 
+@export var cooldown_time: float = 0.6
 
 var _can_attack: bool = true
 
