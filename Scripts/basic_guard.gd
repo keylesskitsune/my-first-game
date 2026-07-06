@@ -55,7 +55,8 @@ func _physics_process(delta):
 		State.ATTACK:
 			_handle_attack()
 	
-	_rotate_vision_cone()
+	if move_direction.length() > 0.1:
+		vision.rotation = move_direction.angle()
 	update_animation(velocity.normalized())
 
 	if knockback_velocity.length() > 1.0:
@@ -69,11 +70,6 @@ func _physics_process(delta):
 
 func apply_knockback(direction: Vector2, force: float) -> void:
 	knockback_velocity = direction * force
-
-
-func _rotate_vision_cone():
-	if move_direction.length() > 0.1:
-		vision.rotation = move_direction.angle()
 
 
 func _handle_idle(_delta):

@@ -74,8 +74,8 @@ func _physics_process(_delta):
 	move_and_slide()
 
 
-func _on_health_changed(current: int, _max_hp: int) -> void:
-	print("Player health: ", current, "/", max)
+func _on_health_changed(current: int, max_hp: int) -> void:
+	print("Player health: ", current, "/", max_hp)
 
 func _on_died() -> void:
 	print("Player caught!")
