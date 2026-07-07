@@ -135,9 +135,9 @@ region = Rect2(64, 0, 32, 32)
 atlas = ExtResource("11_slidel")
 region = Rect2(96, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_slideu1"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_xwi16"]
 atlas = ExtResource("13_slideu")
-region = Rect2(32, 0, 32, 32)
+region = Rect2(32, 0, 32, 25)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8gxox"]
 atlas = ExtResource("13_slideu")
@@ -309,7 +309,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_slideu1")
+"texture": SubResource("AtlasTexture_xwi16")
 }],
 "loop": 1,
 "name": &"slide_up_idle",
@@ -337,10 +337,13 @@ animations = [{
 size = Vector2(11.5, 14)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ecxti"]
-size = Vector2(9, 9)
+size = Vector2(13.875, 7.75)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d82mx"]
+size = Vector2(14, 6.75)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j4uaq"]
-size = Vector2(5, 17.5)
+size = Vector2(9, 19.75)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f1ek2"]
 size = Vector2(7.875, 8.8125)
@@ -354,7 +357,7 @@ script = ExtResource("1_x3wgy")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1107943444]
 position = Vector2(0, -2)
 sprite_frames = SubResource("SpriteFrames_x3wgy")
-animation = &"slide_up_move"
+animation = &"slide_down_idle"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1388226162]
 limit_left = -1000000
@@ -367,14 +370,18 @@ visibility_layer = 2
 position = Vector2(0.25, 1)
 shape = SubResource("RectangleShape2D_fkybt")
 
-[node name="WallSlideCollision Up_Down" type="CollisionShape2D" parent="." unique_id=223684418]
-visible = false
-position = Vector2(0, -1)
+[node name="WallSlideCollision Down" type="CollisionShape2D" parent="." unique_id=223684418]
+position = Vector2(0, -3)
 shape = SubResource("RectangleShape2D_ecxti")
 disabled = true
 
+[node name="WallSlideCollision Up" type="CollisionShape2D" parent="." unique_id=1694049978]
+position = Vector2(0, 4.375)
+shape = SubResource("RectangleShape2D_d82mx")
+disabled = true
+
 [node name="WallSlideCollision Left_Right" type="CollisionShape2D" parent="." unique_id=1631418360]
-visible = false
+position = Vector2(0.5, 0)
 shape = SubResource("RectangleShape2D_j4uaq")
 disabled = true
 
@@ -403,10 +410,11 @@ position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_tx1dd")
 debug_color = Color(0.32267833, 0.6248632, 0, 0.41960785)
 
-[node name="WallSlideComponent" type="Node" parent="Components" unique_id=1509283746 node_paths=PackedStringArray("body", "animated_sprite", "collision_shape", "up_down_collision_shape", "left_right_collision_shape")]
+[node name="WallSlideComponent" type="Node" parent="Components" unique_id=1509283746 node_paths=PackedStringArray("body", "animated_sprite", "collision_shape", "up_collision_shape", "down_collision_shape", "left_right_collision_shape")]
 script = ExtResource("14_wallslide")
 body = NodePath("../..")
 animated_sprite = NodePath("../../AnimatedSprite2D")
 collision_shape = NodePath("../../CollisionShape2D")
-up_down_collision_shape = NodePath("../../WallSlideCollision Up_Down")
+up_collision_shape = NodePath("../../WallSlideCollision Up")
+down_collision_shape = NodePath("../../WallSlideCollision Down")
 left_right_collision_shape = NodePath("../../WallSlideCollision Left_Right")

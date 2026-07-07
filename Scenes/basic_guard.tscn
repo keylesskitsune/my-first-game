@@ -307,8 +307,9 @@ path_desired_distance = 1000.0
 
 [node name="Components" type="Node2D" parent="." unique_id=1139867328]
 
-[node name="Vision" parent="Components" unique_id=1486846188 instance=ExtResource("8_vision")]
+[node name="Vision" parent="Components" unique_id=1486846188 node_paths=PackedStringArray("self_body") instance=ExtResource("8_vision")]
 position = Vector2(0, -5)
+self_body = NodePath("../..")
 
 [node name="HurtboxComponent" parent="Components" unique_id=1941597640 node_paths=PackedStringArray("health_component") instance=ExtResource("7_3sigj")]
 position = Vector2(0, -5)
