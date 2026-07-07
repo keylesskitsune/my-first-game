@@ -15,6 +15,10 @@ run/main_scene="uid://si08ns1yiff"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GlobalAlertState="*res://Scripts/global_alert_state.gd"
+
 [input]
 
 left={

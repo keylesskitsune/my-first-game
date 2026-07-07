@@ -23,26 +23,26 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(70, 190, 1150, 191, 114
 position = Vector2(450, 552)
 scale = Vector2(4, 4)
 
-[node name="Enemy" type="Node2D" parent="." unique_id=2011815104]
+[node name="Enemy AI" type="Node2D" parent="." unique_id=608892194]
 
-[node name="BasicGuard" parent="Enemy" unique_id=2153924 instance=ExtResource("3_8gbba")]
-position = Vector2(793, 260)
-rotation = -0.0065788524
-scale = Vector2(4, 4)
-
-[node name="GuardStateComponent" parent="Enemy/BasicGuard/Components" node_paths=PackedStringArray("patrol_path")]
-patrol_path = NodePath("../../../Enemy AI/Path2D/PathFollow2D")
-speed = 200
-
-[node name="Enemy AI" type="Node2D" parent="Enemy" unique_id=608892194]
-
-[node name="Path2D" type="Path2D" parent="Enemy/Enemy AI" unique_id=2077581591]
+[node name="Patrols" type="Path2D" parent="Enemy AI" unique_id=2077581591]
 curve = SubResource("Curve2D_jjvhh")
 
-[node name="PathFollow2D" type="PathFollow2D" parent="Enemy/Enemy AI/Path2D" unique_id=531886747]
+[node name="Path1" type="PathFollow2D" parent="Enemy AI/Patrols" unique_id=531886747]
 position = Vector2(793, 260)
 rotation = -0.0065788524
 rotates = false
 
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="Enemy/Enemy AI" unique_id=766123120]
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="Enemy AI" unique_id=766123120]
 navigation_polygon = SubResource("NavigationPolygon_8gbba")
+
+[node name="Enemy" type="Node2D" parent="." unique_id=2011815104]
+
+[node name="BasicGuard2" parent="Enemy" unique_id=2153924 instance=ExtResource("3_8gbba")]
+position = Vector2(123, 885)
+
+[node name="BasicGuard" parent="Enemy" unique_id=1496854253 node_paths=PackedStringArray("patrol_path") instance=ExtResource("3_8gbba")]
+position = Vector2(793, 260)
+rotation = -0.0065788524
+patrol_mode = 0
+patrol_path = NodePath("../../Enemy AI/Patrols/Path1")

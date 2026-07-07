@@ -287,7 +287,9 @@ size = Vector2(12, 17)
 size = Vector2(5, 10.5)
 
 [node name="BasicGuard" type="CharacterBody2D" unique_id=2153924]
+scale = Vector2(4, 4)
 script = ExtResource("1_jv5ow")
+patrol_mode = 3
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1165477364]
 position = Vector2(0, -5)

@@ -2,6 +2,17 @@ extends CharacterBody2D
 
 @export var knockback_friction = 600 # how fast the knockback impulse decays
 
+@export_group("Patrol")
+@export var patrol_mode: GuardStateComponent.PatrolMode = GuardStateComponent.PatrolMode.LOOP
+@export var patrol_path: PathFollow2D
+@export var patrol_speed: float = 0.08
+@export var patrol_waypoints: Array[Node2D] = []
+
+@export_group("Look Behavior")
+@export var look_pause_duration: float = 0.6
+@export var look_side_duration: float = 0.5
+@export var look_angle_degrees: float = 60.0
+
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var vision: VisionComponent = $Components/Vision
 @onready var attack_component: AttackComponent = $Components/AttackComponent
@@ -15,24 +26,47 @@ var knockback_velocity := Vector2.ZERO
 
 
 func _ready():
+	guard_state.patrol_mode = patrol_mode
+	guard_state.patrol_path = patrol_path
+	guard_state.patrol_speed = patrol_speed
+	guard_state.patrol_waypoints = patrol_waypoints
+	guard_state.look_pause_duration = look_pause_duration
+	guard_state.look_side_duration = look_side_duration
+	guard_state.look_angle_degrees = look_angle_degrees
+
 	vision.target_spotted.connect(_on_vision_target_spotted)
 	vision.target_lost.connect(_on_vision_target_lost)
 	health_component.damaged.connect(_on_damaged)
 	health_component.died.connect(_on_died)
+	GlobalAlertState.state_changed.connect(_on_global_alert_state_changed)
+	GlobalAlertState.player_position_updated.connect(_on_global_player_position_updated)
 
 
 func _on_vision_target_spotted(body: Node2D) -> void:
 	print("Player spotted!")
 	guard_state.set_target(body)
+	GlobalAlertState.report_sighting(body.global_position)
 
 
 func _on_vision_target_lost(body: Node2D) -> void:
 	if guard_state.clear_target(body):
-		print("Player lost...")
+		print("Player lost, heading to last known position...")
+
+
+func _on_global_alert_state_changed(new_state: GlobalAlertState.State) -> void:
+	if new_state == GlobalAlertState.State.ALERT:
+		guard_state.receive_global_alert(GlobalAlertState.last_known_position)
+
+
+func _on_global_player_position_updated(position: Vector2) -> void:
+	guard_state.receive_global_alert(position)
 
 
 func _physics_process(delta):
-	guard_state.process_state()
+	guard_state.process_state(delta)
+
+	if guard_state.target:
+		GlobalAlertState.report_sighting(guard_state.target.global_position)
 
 	if guard_state.move_direction.length() > 0.1:
 		vision.rotation = guard_state.move_direction.angle()
