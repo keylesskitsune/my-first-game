@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://j68cnkcroywl" path="res://Scenes/health_component.tscn" id="4_p6qfl"]
 [ext_resource type="PackedScene" uid="uid://begfcuhw7hod6" path="res://Scenes/hurtbox_component.tscn" id="7_3sigj"]
 [ext_resource type="PackedScene" path="res://Scenes/vision_component.tscn" id="8_vision"]
+[ext_resource type="Script" uid="uid://c0qgenbpiakoj" path="res://Scripts/guard_state_component.gd" id="9_guardstate"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dycng"]
 atlas = ExtResource("1_ckcsj")
@@ -152,7 +153,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_2fh7s")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle_down",
 "speed": 3.0
 }, {
@@ -169,7 +170,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_7fcc0")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle_left",
 "speed": 3.0
 }, {
@@ -186,7 +187,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_yed4l")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle_right",
 "speed": 3.0
 }, {
@@ -203,7 +204,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_1flrx")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle_up",
 "speed": 3.0
 }, {
@@ -220,7 +221,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_fyu27")
 }],
-"loop": true,
+"loop": 1,
 "name": &"move_down",
 "speed": 7.0
 }, {
@@ -237,7 +238,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_n4a4q")
 }],
-"loop": true,
+"loop": 1,
 "name": &"move_left",
 "speed": 7.0
 }, {
@@ -254,7 +255,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_asuxb")
 }],
-"loop": true,
+"loop": 1,
 "name": &"move_right",
 "speed": 7.0
 }, {
@@ -271,7 +272,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_5abhd")
 }],
-"loop": true,
+"loop": 1,
 "name": &"move_up",
 "speed": 7.0
 }]
@@ -279,11 +280,11 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_62vg2"]
 size = Vector2(12, 10)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_2fh7s"]
-size = Vector2(5, 10.5)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gafcb"]
 size = Vector2(12, 17)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2fh7s"]
+size = Vector2(5, 10.5)
 
 [node name="BasicGuard" type="CharacterBody2D" unique_id=2153924]
 script = ExtResource("1_jv5ow")
@@ -301,31 +302,36 @@ visibility_layer = 3
 position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_62vg2")
 
-[node name="Vision" parent="." unique_id=1486846188 instance=ExtResource("8_vision")]
-position = Vector2(0, -5)
-view_distance = 90.0
-view_angle_degrees = 90.0
-
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1058360815]
 path_desired_distance = 1000.0
 
-[node name="AttackComponent" parent="." unique_id=1303139763 node_paths=PackedStringArray("hitbox") instance=ExtResource("4_42e6p")]
+[node name="Components" type="Node2D" parent="." unique_id=1139867328]
+
+[node name="Vision" parent="Components" unique_id=1486846188 instance=ExtResource("8_vision")]
+position = Vector2(0, -5)
+
+[node name="HurtboxComponent" parent="Components" unique_id=1941597640 node_paths=PackedStringArray("health_component") instance=ExtResource("7_3sigj")]
+position = Vector2(0, -5)
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Components/HurtboxComponent" unique_id=1332239014]
+position = Vector2(0, 3.5)
+shape = SubResource("RectangleShape2D_gafcb")
+debug_color = Color(0.5386513, 0.5677725, 0.0598152, 0.41960785)
+
+[node name="HealthComponent" parent="Components" unique_id=956881380 instance=ExtResource("4_p6qfl")]
+
+[node name="AttackComponent" parent="Components" unique_id=1303139763 node_paths=PackedStringArray("hitbox") instance=ExtResource("4_42e6p")]
 hitbox = NodePath("HitboxComponent")
 
-[node name="HitboxComponent" parent="AttackComponent" unique_id=2066948592 instance=ExtResource("3_fyu27")]
+[node name="HitboxComponent" parent="Components/AttackComponent" unique_id=2066948592 instance=ExtResource("3_fyu27")]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackComponent/HitboxComponent" unique_id=335283698]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Components/AttackComponent/HitboxComponent" unique_id=335283698]
 position = Vector2(8.5, -0.25)
 shape = SubResource("RectangleShape2D_2fh7s")
 debug_color = Color(0.99623126, 0, 0.19929612, 0.41960785)
 
-[node name="HealthComponent" parent="." unique_id=956881380 instance=ExtResource("4_p6qfl")]
-
-[node name="HurtboxComponent" parent="." unique_id=1941597640 node_paths=PackedStringArray("health_component") instance=ExtResource("7_3sigj")]
-position = Vector2(0, -5)
-health_component = NodePath("../HealthComponent")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" unique_id=1332239014]
-position = Vector2(0, 3.5)
-shape = SubResource("RectangleShape2D_gafcb")
-debug_color = Color(0.5386513, 0.5677725, 0.0598152, 0.41960785)
+[node name="GuardStateComponent" type="Node" parent="Components" unique_id=1509283747 node_paths=PackedStringArray("body", "navigation_agent")]
+script = ExtResource("9_guardstate")
+body = NodePath("../..")
+navigation_agent = NodePath("../../NavigationAgent2D")
