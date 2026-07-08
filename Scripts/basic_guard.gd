@@ -7,11 +7,18 @@ extends CharacterBody2D
 @export var patrol_path: PathFollow2D
 @export var patrol_speed: float = 0.08
 @export var patrol_waypoints: Array[Node2D] = []
+## Seconds of walking between look-around stops for LOOP/PING_PONG. 0 disables stopping.
+@export var path_stop_interval: float = 0.0
 
 @export_group("Look Behavior")
+## Angles (degrees, relative to the guard's facing when it starts looking) to turn
+## through in order. Include 0.0 last to end up facing the way it started.
+@export var look_angles: Array[float] = [-60.0, 60.0, 0.0]
 @export var look_pause_duration: float = 0.6
-@export var look_side_duration: float = 0.5
-@export var look_angle_degrees: float = 60.0
+@export var look_hold_duration: float = 0.5
+@export var look_turn_speed_degrees: float = 240.0
+## LOOP rounds back to look_angles[0] every repeat; PING_PONG alternates direction.
+@export var look_cycle_mode: GuardStateComponent.LookCycleMode = GuardStateComponent.LookCycleMode.LOOP
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var vision: VisionComponent = $Components/Vision
@@ -30,9 +37,12 @@ func _ready():
 	guard_state.patrol_path = patrol_path
 	guard_state.patrol_speed = patrol_speed
 	guard_state.patrol_waypoints = patrol_waypoints
+	guard_state.path_stop_interval = path_stop_interval
+	guard_state.look_angles = look_angles
 	guard_state.look_pause_duration = look_pause_duration
-	guard_state.look_side_duration = look_side_duration
-	guard_state.look_angle_degrees = look_angle_degrees
+	guard_state.look_hold_duration = look_hold_duration
+	guard_state.look_turn_speed_degrees = look_turn_speed_degrees
+	guard_state.look_cycle_mode = look_cycle_mode
 
 	vision.target_spotted.connect(_on_vision_target_spotted)
 	vision.target_lost.connect(_on_vision_target_lost)
@@ -58,8 +68,8 @@ func _on_global_alert_state_changed(new_state: GlobalAlertState.State) -> void:
 		guard_state.receive_global_alert(GlobalAlertState.last_known_position)
 
 
-func _on_global_player_position_updated(position: Vector2) -> void:
-	guard_state.receive_global_alert(position)
+func _on_global_player_position_updated(player_position: Vector2) -> void:
+	guard_state.receive_global_alert(player_position)
 
 
 func _physics_process(delta):
